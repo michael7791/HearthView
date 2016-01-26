@@ -12,10 +12,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Mick on 11/29/2015.
+ * Expandable list view adapter to be used for navigation drawer
  */
 public class ExpanableAdapter extends BaseExpandableListAdapter {
+    //the navigation options
     private ArrayList<DrawerItem> arr;
+    //get the activity of parent
     private Activity c;
 
     public ExpanableAdapter(Activity c, ArrayList<DrawerItem> arr) {
@@ -58,6 +60,14 @@ public class ExpanableAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    /**
+     * Set the layout for the labels
+     * @param groupPosition
+     * @param isExpanded
+     * @param convertView
+     * @param parent
+     * @return label's view
+     */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         LayoutInflater inflater = c.getLayoutInflater();
@@ -69,6 +79,15 @@ public class ExpanableAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Set the layout for the label's contents
+     * @param groupPosition
+     * @param childPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return label's child view
+     */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = c.getLayoutInflater();

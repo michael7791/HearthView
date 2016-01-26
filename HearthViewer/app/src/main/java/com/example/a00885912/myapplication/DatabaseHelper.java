@@ -9,8 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class provides sorted card data from the database for other classes to use.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
+    //Database name
     private static String DB_NAME = "Cards";
+    //card info
     private String cardName,desc,flavorText;
     private int manaC,cardImgSrc, attack, health, damage, durability;
     private boolean collectable;
@@ -20,6 +25,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Set set;
     private Race race;
 
+    /**
+     * Creates a database with Tables Minion, Spell and Weapon
+     * @param db The database to be created
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -27,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS Spell");
             db.execSQL("DROP TABLE IF EXISTS Weapon");
 
+            //minion
             db.execSQL("CREATE TABLE Minion (\n" +
                     "cardName    TEXT    NOT NULL,\n" +
                     "cardImgSrc  INT     NOT NULL,\n" +
@@ -42,6 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "health      INT     NOT NULL,\n" +
                     "race        TEXT    NOT NULL\n" +
                     ");");
+
+            //weapon
             db.execSQL("CREATE TABLE Weapon (\n" +
                     "cardName    TEXT    NOT NULL,\n" +
                     "cardImgSrc  INT     NOT NULL,\n" +
@@ -56,6 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "durability  INT     NOT NULL,\n" +
                     "damage      INT     NOT NULL\n" +
                     ");");
+
+            //spell
             db.execSQL("CREATE TABLE Spell (\n" +
                     "cardName    TEXT    NOT NULL,\n" +
                     "cardImgSrc  INT     NOT NULL,\n" +
@@ -68,6 +82,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "trait       TEXT    NOT NULL,\n" +
                     "flavorText  TEXT    NOT NULL\n" +
                     ");");
+
+            //add cards to db
             insert(db);
         } catch (Exception e) {
         }
@@ -82,6 +98,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
     }
 
+    /**
+     * Sort the entire db and return all cards
+     * @param db The db to grab information from
+     * @return Every card in the database as an arraylist
+     */
     public ArrayList<Card> getAllCards(SQLiteDatabase db) {
         ArrayList<Card> cards = new ArrayList<>();
         String minions = "SELECT * FROM Minion";
@@ -89,6 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String weapons = "SELECT * FROM Weapon";
 
         Cursor cursor;
+
+        //minion
         cursor = db.rawQuery(minions,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -110,6 +133,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cards.add(minion);
             cursor.moveToNext();
         }
+
+        //weapon
         cursor = db.rawQuery(weapons,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -130,6 +155,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cards.add(weapon);
             cursor.moveToNext();
         }
+
+        //spell
         cursor = db.rawQuery(spells,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -151,11 +178,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cards;
     }
 
+    /**
+     * Sorts the database by the race of the minion
+     * @param db The database to grab information from
+     * @param selectedTribe The tribe to be sorted
+     * @return Minions with the specified tribe
+     */
     public ArrayList<Card> getTribeCards(SQLiteDatabase db, String selectedTribe) {
         ArrayList<Card> cards = new ArrayList<>();
         String minions = "SELECT * FROM Minion";
-        String spells = "SELECT * FROM Spell";
-        String weapons = "SELECT * FROM Weapon";
 
         Cursor cursor;
         cursor = db.rawQuery(minions,null);
@@ -185,6 +216,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cards;
     }
 
+    /**
+     * Sorts the db and return all cards with specified mana cost
+     * @param db Db to grab information from
+     * @param mana The mana crystal cost to sort with
+     * @return All cards with specified mana crystal cost
+     */
     public ArrayList<Card> getManaCards(SQLiteDatabase db, int mana) {
         ArrayList<Card> cards = new ArrayList<>();
         String minions = "SELECT * FROM Minion";
@@ -192,6 +229,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String weapons = "SELECT * FROM Weapon";
 
         Cursor cursor;
+
+        //minion
         cursor = db.rawQuery(minions,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -215,6 +254,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             cursor.moveToNext();
         }
+
+        //weapon
         cursor = db.rawQuery(weapons,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -237,6 +278,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             cursor.moveToNext();
         }
+
+        //spell
         cursor = db.rawQuery(spells,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -260,6 +303,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cards;
     }
 
+    /**
+     * Sorts db and returns all cards with specified class
+     * @param db The DB to grab information from
+     * @param selectedClass The class specified
+     * @return All cards belonging to the specified class
+     */
     public ArrayList<Card> getClassCards(SQLiteDatabase db, String selectedClass) {
         ArrayList<Card> cards = new ArrayList<>();
         String minions = "SELECT * FROM Minion";
@@ -335,6 +384,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cards;
     }
 
+
+    /**
+     * Populate the database with cards data
+     * @param db The databsae to store the data into.
+     */
     public void insert(SQLiteDatabase db) {
         //armorsmith
         ContentValues courseValues;
@@ -493,7 +547,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Baron
         courseValues = new ContentValues();
         courseValues.put("cardName","Baron Geddon");
-        courseValues.put("cardImgSrc", R.drawable.sylvanas);
+        courseValues.put("cardImgSrc", R.drawable.barongeddon);
         courseValues.put("rarity","LEGENDARY");
         courseValues.put("manaCost", 7);
         courseValues.put("sets", "VAN");
@@ -660,6 +714,148 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         courseValues.put("flavorText", "Do you know the first rule of Brawl Club?");
         db.insert("Spell", null, courseValues);
 
+        //apprentice
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Sorcerer's Apprentice");
+        courseValues.put("cardImgSrc", R.drawable.apprentice);
+        courseValues.put("rarity","COMMON");
+        courseValues.put("manaCost", 2);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "MAGE");
+        courseValues.put("description","Your slepps cost (1) less");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("attack", 3);
+        courseValues.put("health",2);
+        courseValues.put("race", "NONE");
+        db.insert("Minion", null, courseValues);
+
+        //assassin
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Patient Assassin");
+        courseValues.put("cardImgSrc", R.drawable.assassin);
+        courseValues.put("rarity","EPIC");
+        courseValues.put("manaCost", 2);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "ROGUE");
+        courseValues.put("description","Destroy any minion damaged by this minion");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("attack", 1);
+        courseValues.put("health",1);
+        courseValues.put("race", "NONE");
+        db.insert("Minion", null, courseValues);
+
+        //Coin
+        courseValues = new ContentValues();
+        courseValues.put("cardName","The Coin");
+        courseValues.put("cardImgSrc", R.drawable.coin);
+        courseValues.put("rarity","BASIC");
+        courseValues.put("manaCost", 0);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "NEUTRAL");
+        courseValues.put("description","Gain 1 Mana Crystal this turn only");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        db.insert("Spell", null, courseValues);
+
+        //grove
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Keeper of the Grove");
+        courseValues.put("cardImgSrc", R.drawable.grove);
+        courseValues.put("rarity","RARE");
+        courseValues.put("manaCost", 4);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "DRUID");
+        courseValues.put("description","");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("attack", 2);
+        courseValues.put("health",4);
+        courseValues.put("race", "NONE");
+        db.insert("Minion", null, courseValues);
+
+        //imp
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Flame Imp");
+        courseValues.put("cardImgSrc", R.drawable.imp);
+        courseValues.put("rarity","COMMON");
+        courseValues.put("manaCost", 1);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "WARLOCK");
+        courseValues.put("description","");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("attack", 3);
+        courseValues.put("health",2);
+        courseValues.put("race", "DEMON");
+        db.insert("Minion", null, courseValues);
+
+        //Kings
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Blessing of the Kings");
+        courseValues.put("cardImgSrc", R.drawable.kings);
+        courseValues.put("rarity","BASIC");
+        courseValues.put("manaCost", 4);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "PALADIN");
+        courseValues.put("description","Give a minion +4/+4");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        db.insert("Spell", null, courseValues);
+
+        //bolt
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Lightning Bolt");
+        courseValues.put("cardImgSrc", R.drawable.lightningbolt);
+        courseValues.put("rarity","COMMON");
+        courseValues.put("manaCost", 1);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "SHAMAN");
+        courseValues.put("description","");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        db.insert("Spell", null, courseValues);
+
+        //longbow
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Gladiator's Longbow");
+        courseValues.put("cardImgSrc", R.drawable.longbow);
+        courseValues.put("rarity","EPIC");
+        courseValues.put("manaCost", 7);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "HUNTER");
+        courseValues.put("description","");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("durability", 4);
+        courseValues.put("damage", 2);
+        db.insert("Weapon", null, courseValues);
+
+        //Velen
+        courseValues = new ContentValues();
+        courseValues.put("cardName","Prophet Velen");
+        courseValues.put("cardImgSrc", R.drawable.velen);
+        courseValues.put("rarity","LEGENDARY");
+        courseValues.put("manaCost", 7);
+        courseValues.put("sets", "VAN");
+        courseValues.put("collectible",true);
+        courseValues.put("class", "PRIEST");
+        courseValues.put("description","");
+        courseValues.put("trait", "NONE");
+        courseValues.put("flavorText", "");
+        courseValues.put("attack", 7);
+        courseValues.put("health",7);
+        courseValues.put("race", "NONE");
+        db.insert("Minion", null, courseValues);
     }
 
 }

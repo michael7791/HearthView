@@ -10,6 +10,9 @@ import android.view.View;
 
 import java.io.IOException;
 
+/**
+ * This class is the main class of the program. It handles two intent checking.
+ */
 public class MainActivity extends AppCompatActivity {
 
     SQLiteDatabase db;
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //create db
         try {
             DatabaseHelper helper = new DatabaseHelper(this);
             db = helper.getWritableDatabase();
@@ -24,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    //direct to gallery
     public void onClickGallery(View view) {
         Intent intent;
         intent = new Intent(this,Navigation.class);
         startActivity(intent);
     }
 
+    //direct to deckbuilder
     public void onClickDeckBuilder(View view) {
         Intent intent;
         intent = new Intent(this,DeckBuilder.class);

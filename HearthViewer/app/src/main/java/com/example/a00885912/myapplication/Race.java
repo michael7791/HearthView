@@ -1,7 +1,7 @@
 package com.example.a00885912.myapplication;
 
 /**
- * Created by Mick on 11/29/2015.
+ * This enum represents all possible races for a card
  */
 public enum Race {
     MURLOC,DRAGON,MECH,TOTEM,DEMON,BEAST,PIRATE,NONE

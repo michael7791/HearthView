@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 
+/**
+ * This class creates a navigation drawer and adds gallery as its child fragment
+ */
 public class Navigation extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 

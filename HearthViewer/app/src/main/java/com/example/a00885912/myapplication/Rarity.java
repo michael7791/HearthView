@@ -1,7 +1,7 @@
 package com.example.a00885912.myapplication;
 
 /**
- * Created by a00885912 on 11/26/2015.
+ * This enum contains all possible rarity for a card and its equivalent dust cost.
  */
 public enum Rarity {
     BASIC(0),COMMON(40),RARE(100),EPIC(400),LEGENDARY(1600);
@@ -10,6 +10,7 @@ public enum Rarity {
         this.dust = dust;
     }
 
+    //returns dust cost
     int getDust() {
         return dust;
     }

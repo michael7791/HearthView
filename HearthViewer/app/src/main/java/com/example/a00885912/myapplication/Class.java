@@ -1,7 +1,7 @@
 package com.example.a00885912.myapplication;
 
 /**
- * Created by a00885912 on 11/26/2015.
+ * This class is a enum type that defines all possible class values of a card.
  */
 public enum Class {
     NEUTRAL,MAGE,HUNTER,SHAMAN,DRUID,WARLOCK,WARRIOR,PRIEST,PALADIN,ROGUE

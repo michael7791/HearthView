@@ -1,7 +1,7 @@
 package com.example.a00885912.myapplication;
 
 /**
- * Created by a00885912 on 11/26/2015.
+ * This enum contains all possible expansion set for a card.
  */
 public enum Set {
     VAN,NAX,BRM,GVG,TGT,LOE

@@ -3,10 +3,12 @@ package com.example.a00885912.myapplication;
 import java.util.ArrayList;
 
 /**
- * Created by Mick on 11/29/2015.
+ * Drawer adapter data structure
  */
 public class DrawerItem {
+    //The name of the label
     public String tag;
+    //The content of the label
     public ArrayList<String> items;
 
     public DrawerItem(String tag, ArrayList<String> items) {

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Mick on 11/30/2015.
+ * The swipe adapter used by the view pager
  */
 public class SwipeAdapter extends PagerAdapter{
     private ArrayList<Card> arr;
@@ -24,11 +24,13 @@ public class SwipeAdapter extends PagerAdapter{
         this.c = c;
     }
 
+    //get total number of cards count
     @Override
     public int getCount() {
         return arr.size();
     }
 
+    //set layout, image position and flavor texts
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,6 +43,7 @@ public class SwipeAdapter extends PagerAdapter{
         return Itemview;
     }
 
+    //remove the view
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout) object);

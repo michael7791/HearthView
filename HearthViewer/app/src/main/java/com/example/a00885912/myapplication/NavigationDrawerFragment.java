@@ -97,6 +97,13 @@ public class NavigationDrawerFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     * Sets up view pager adapter to work with all sortings
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,6 +119,7 @@ public class NavigationDrawerFragment extends Fragment {
         ExpanableAdapter adapter = new ExpanableAdapter(getActivity(),arr);
         mDrawerListView.setAdapter(adapter);
 
+        //set different adapters for each navigation selection
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         mDrawerListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -140,6 +148,11 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerListView;
     }
 
+    /**
+     * Sets up view pager with Home page and Clear filter functionality
+     * @param vps The view pager to set adapter with
+     * @param childPosition The position selected in other list.
+     */
     public void setOtherPager(ViewPager vps, int childPosition) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
@@ -147,9 +160,11 @@ public class NavigationDrawerFragment extends Fragment {
             db = helper.getReadableDatabase();
         } catch(IOException e) {}
         switch(childPosition) {
+            //grab all cards
             case 0:
                 cards = helper.getAllCards(db);
                 break;
+            //direct back to main page
             case 1:
                 Intent intent;
                 intent = new Intent(getActivity(),MainActivity.class);
@@ -162,6 +177,11 @@ public class NavigationDrawerFragment extends Fragment {
         vps.setAdapter(adapter);
     }
 
+    /**
+     * Sets view pager to handle mana crystal sortings
+     * @param vps The view pager to set adapter with
+     * @param childPosition The desired mana cost requirement
+     */
     public void setManaPager(ViewPager vps, int childPosition) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
@@ -207,6 +227,11 @@ public class NavigationDrawerFragment extends Fragment {
         vps.setAdapter(adapter);
     }
 
+    /**
+     * Sets view pager to handle Race sortings
+     * @param vps The view pager to set adapter with
+     * @param childPosition The desired Race requirement
+     */
     public void setTribePager(ViewPager vps, int childPosition) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
@@ -246,6 +271,11 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
+    /**
+     * Sets view pager to handle Class sortings
+     * @param vps The view pager to set adapter with
+     * @param childPosition The desired Class requirement
+     */
     public void setClassPager(ViewPager vps, int childPosition) {
         ArrayList<Card> cards = new ArrayList<>();
         try {
@@ -290,6 +320,9 @@ public class NavigationDrawerFragment extends Fragment {
         vps.setAdapter(adapter);
     }
 
+    /**
+     * Populates the lists with items
+     */
     public void addDrawers() {
         ArrayList<String> cla = new ArrayList<>();
         cla.add("Druid");
